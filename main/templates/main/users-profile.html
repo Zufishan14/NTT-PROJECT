@@ -1,0 +1,155 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Profile - NiceAdmin Bootstrap Template{% endblock %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Profile</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item">Users</li>
+                <li class="breadcrumb-item active">Profile</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section profile">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+                        {% if user_profile.profile_picture %}
+                            <img src="{{ user_profile.profile_picture.url }}" alt="Profile" class="rounded-circle">
+                        {% else %}
+                            <img src="{% static 'assets/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle">
+                        {% endif %}
+                        <h2>{{ user.get_full_name|default:user.username }}</h2>
+                        <h3>{{ user.email }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-8">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <!-- Bordered Tabs -->
+                        <ul class="nav nav-tabs nav-tabs-bordered">
+                            <li class="nav-item">
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content pt-2">
+                            <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                                {% if messages %}
+                                <div class="messages">
+                                    {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }}">
+                                        {{ message }}
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+
+                                <form method="POST" action="{% url 'profile' %}" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    
+                                    <div class="row mb-3">
+                                        <label for="profile_picture" class="col-md-4 col-lg-3 col-form-label">Profile Picture</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <div class="d-flex align-items-center">
+                                                {% if user_profile.profile_picture %}
+                                                    <img src="{{ user_profile.profile_picture.url }}" alt="Profile" class="rounded-circle me-3" style="width: 80px; height: 80px;">
+                                                {% else %}
+                                                    <img src="{% static 'assets/img/profile-img.jpg' %}" alt="Profile" class="rounded-circle me-3" style="width: 80px; height: 80px;">
+                                                {% endif %}
+                                                <input name="profile_picture" type="file" class="form-control" id="profile_picture">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <label for="first_name" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="first_name" type="text" class="form-control" id="first_name" value="{{ user.first_name }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="last_name" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="last_name" type="text" class="form-control" id="last_name" value="{{ user.last_name }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="email" type="email" class="form-control" id="email" value="{{ user.email }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="phone" type="text" class="form-control" id="phone" value="{{ user_profile.phone }}">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="address" class="col-md-4 col-lg-3 col-form-label">Address</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <textarea name="address" class="form-control" id="address" style="height: 100px">{{ user_profile.address }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="tab-pane fade pt-3" id="profile-change-password">
+                                <!-- Change Password Form -->
+                                <form method="POST" action="{% url 'change_password' %}">
+                                    {% csrf_token %}
+                                    <div class="row mb-3">
+                                        <label for="old_password" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="old_password" type="password" class="form-control" id="old_password" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="new_password1" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="new_password1" type="password" class="form-control" id="new_password1" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <label for="new_password2" class="col-md-4 col-lg-3 col-form-label">Confirm New Password</label>
+                                        <div class="col-md-8 col-lg-9">
+                                            <input name="new_password2" type="password" class="form-control" id="new_password2" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary">Change Password</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

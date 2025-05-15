@@ -1,0 +1,92 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}View Excel - {{ excel_file.file_name }}{% endblock %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>View Excel File</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'excel_management' %}">Excel Management</a></li>
+                <li class="breadcrumb-item active">View File</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ excel_file.file_name }}</h5>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <span class="badge bg-primary">Uploaded by: {{ excel_file.user.username }}</span>
+                                <span class="badge bg-secondary">Date: {{ excel_file.upload_date|date:"M d, Y H:i" }}</span>
+                                <span class="badge bg-info">Size: {{ excel_file.file_size|filesizeformat }}</span>
+                            </div>
+                            <div class="btn-group">
+                                {% if user.is_staff %}
+                                <a href="{% url 'edit_excel' excel_file.id %}" class="btn btn-warning">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                {% endif %}
+                                <a href="{% url 'download_excel' excel_file.id %}" class="btn btn-primary">
+                                    <i class="bi bi-download"></i> Download
+                                </a>
+                                <a href="{% url 'excel_management' %}" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left"></i> Back
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            {{ table_html|safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .table-responsive {
+        margin-top: 1rem;
+        overflow-x: auto;
+    }
+    
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+    }
+    
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+    
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #dee2e6;
+        background-color: #f8f9fa;
+    }
+    
+    .table tbody + tbody {
+        border-top: 2px solid #dee2e6;
+    }
+    
+    .btn-group {
+        gap: 0.5rem;
+    }
+</style>
+{% endblock %} 

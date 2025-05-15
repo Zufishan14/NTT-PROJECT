@@ -1,0 +1,89 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Components / List Group - NiceAdmin Bootstrap Template{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>List Group</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+      <li class="breadcrumb-item">Components</li>
+      <li class="breadcrumb-item active">List Group</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Basic List Group</h5>
+          <ul class="list-group">
+            <li class="list-group-item">An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+            <li class="list-group-item">A fourth item</li>
+            <li class="list-group-item">And a fifth one</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Active and Disabled Items</h5>
+          <ul class="list-group">
+            <li class="list-group-item active" aria-current="true">An active item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+            <li class="list-group-item">A fourth item</li>
+            <li class="list-group-item disabled" aria-disabled="true">A disabled item</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">List Group with Links</h5>
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+              The current link item
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">A second link item</a>
+            <a href="#" class="list-group-item list-group-item-action">A third link item</a>
+            <a href="#" class="list-group-item list-group-item-action">A fourth link item</a>
+            <a class="list-group-item list-group-item-action disabled" aria-disabled="true">A disabled link item</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">List Group with Contextual Classes</h5>
+          <ul class="list-group">
+            <li class="list-group-item">A simple default list group item</li>
+            <li class="list-group-item list-group-item-primary">A simple primary list group item</li>
+            <li class="list-group-item list-group-item-secondary">A simple secondary list group item</li>
+            <li class="list-group-item list-group-item-success">A simple success list group item</li>
+            <li class="list-group-item list-group-item-danger">A simple danger list group item</li>
+            <li class="list-group-item list-group-item-warning">A simple warning list group item</li>
+            <li class="list-group-item list-group-item-info">A simple info list group item</li>
+            <li class="list-group-item list-group-item-light">A simple light list group item</li>
+            <li class="list-group-item list-group-item-dark">A simple dark list group item</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

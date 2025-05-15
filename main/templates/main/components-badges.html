@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Components / Badges - NiceAdmin Bootstrap Template{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Badges</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+      <li class="breadcrumb-item">Components</li>
+      <li class="breadcrumb-item active">Badges</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Default Badges</h5>
+
+          <h1>Example heading <span class="badge bg-primary">New</span></h1>
+          <h2>Example heading <span class="badge bg-secondary">New</span></h2>
+          <h3>Example heading <span class="badge bg-success">New</span></h3>
+          <h4>Example heading <span class="badge bg-danger">New</span></h4>
+          <h5>Example heading <span class="badge bg-warning text-dark">New</span></h5>
+          <h6>Example heading <span class="badge bg-info text-dark">New</span></h6>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Contextual Badges</h5>
+
+          <span class="badge bg-primary">Primary</span>
+          <span class="badge bg-secondary">Secondary</span>
+          <span class="badge bg-success">Success</span>
+          <span class="badge bg-danger">Danger</span>
+          <span class="badge bg-warning text-dark">Warning</span>
+          <span class="badge bg-info text-dark">Info</span>
+          <span class="badge bg-light text-dark">Light</span>
+          <span class="badge bg-dark">Dark</span>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Components / Breadcrumbs - NiceAdmin Bootstrap Template{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Breadcrumbs</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+      <li class="breadcrumb-item">Components</li>
+      <li class="breadcrumb-item active">Breadcrumbs</li>
+    </ol>
+  </nav>
+</div>
+
+<section class="section">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Default Breadcrumbs</h5>
+
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Library</li>
+            </ol>
+          </nav>
+
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="#">Library</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Data</li>
+            </ol>
+          </nav>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Breadcrumbs with Icons</h5>
+
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#"><i class="bi bi-house-door"></i></a></li>
+              <li class="breadcrumb-item"><a href="#">Library</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Data</li>
+            </ol>
+          </nav>
+
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#"><i class="bi bi-house-door"></i> Home</a></li>
+              <li class="breadcrumb-item"><a href="#"><i class="bi bi-book"></i> Library</a></li>
+              <li class="breadcrumb-item active" aria-current="page"><i class="bi bi-file-earmark-text"></i> Data</li>
+            </ol>
+          </nav>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

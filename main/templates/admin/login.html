@@ -1,0 +1,67 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'admin/css/login.css' %}">
+<style>
+    .login {
+        background: #f6f9ff;
+    }
+    .login #container {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    .login #header {
+        background: #fff;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    .login #header h1 {
+        color: #012970;
+    }
+    .login .form-row input {
+        padding: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+    }
+    .login .submit-row input {
+        background: #4154f1;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .login .submit-row input:hover {
+        background: #5969f3;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <form action="{{ app_path }}" method="post" id="login-form">
+        {% csrf_token %}
+        <div class="form-row">
+            {{ form.username.errors }}
+            {{ form.username.label_tag }} {{ form.username }}
+        </div>
+        <div class="form-row">
+            {{ form.password.errors }}
+            {{ form.password.label_tag }} {{ form.password }}
+            <input type="hidden" name="next" value="{{ next }}">
+        </div>
+        {% url 'admin_password_reset' as password_reset_url %}
+        {% if password_reset_url %}
+        <div class="password-reset-link">
+            <a href="{{ password_reset_url }}">{% translate 'Forgotten your password or username?' %}</a>
+        </div>
+        {% endif %}
+        <div class="submit-row">
+            <input type="submit" value="{% translate 'Log in' %}">
+        </div>
+    </form>
+</div>
+{% endblock %} 

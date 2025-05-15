@@ -1,0 +1,183 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Upload Excel - NiceAdmin{% endblock %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Upload Excel File</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item">Excel</li>
+                <li class="breadcrumb-item active">Upload</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Upload New Excel File</h5>
+
+                        <div class="alert alert-info" role="alert">
+                            <strong>Instructions:</strong> Please ensure your upload includes the following:
+                            <ul class="mb-0">
+                                <li><strong>Excel File</strong> (.xlsx or .xls format)</li>
+                                <li><strong>Financial Year</strong> (select from dropdown)</li>
+                                <li><strong>Client PO Number</strong> (text field)</li>
+                                <li><strong>Client PO Date</strong> (date field)</li>
+                                <li><strong>Sales Document</strong> (text field)</li>
+                                <li><strong>First row contains headers</strong> (check if your file has column headers)</li>
+                            </ul>
+                        </div>
+
+                        {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <form method="POST" enctype="multipart/form-data" class="row g-3">
+                            {% csrf_token %}
+                            
+                            <div class="col-md-6">
+                                <label for="excel_file" class="form-label">Excel File</label>
+                                <input type="file" class="form-control" id="excel_file" name="excel_file" 
+                                       accept=".xlsx,.xls" required>
+                                <div class="form-text">Supported formats: .xlsx, .xls</div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="financial_year" class="form-label">Financial Year</label>
+                                <select class="form-select" id="financial_year" name="financial_year" required>
+                                    <option value="">Select Financial Year</option>
+                                    {% for year in financial_years %}
+                                    <option value="{{ year }}">{{ year }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="client_po_number" class="form-label">Client PO Number</label>
+                                <input type="text" class="form-control" id="client_po_number" name="client_po_number" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="client_po_date" class="form-label">Client PO Date</label>
+                                <input type="date" class="form-control" id="client_po_date" name="client_po_date" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="sales_document" class="form-label">Sales Document</label>
+                                <input type="text" class="form-control" id="sales_document" name="sales_document" required>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="has_header" name="has_header">
+                                    <label class="form-check-label" for="has_header">
+                                        First row contains headers
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Upload File</button>
+                                <a href="{% url 'excel_management' %}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .upload-area {
+        border: 2px dashed #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        cursor: pointer;
+    }
+
+    .upload-area:hover {
+        border-color: #0d6efd;
+    }
+
+    .upload-area i {
+        font-size: 48px;
+        color: #6c757d;
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('excel_file');
+        const uploadArea = document.querySelector('.upload-area');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                const fileName = this.files[0].name;
+                uploadArea.querySelector('p').textContent = `Selected file: ${fileName}`;
+            }
+        });
+
+        // Drag and drop functionality
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            uploadArea.classList.add('border-primary');
+        }
+
+        function unhighlight(e) {
+            uploadArea.classList.remove('border-primary');
+        }
+
+        uploadArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            
+            if (files.length > 0) {
+                const fileName = files[0].name;
+                uploadArea.querySelector('p').textContent = `Selected file: ${fileName}`;
+            }
+        }
+    });
+</script>
+{% endblock %} 

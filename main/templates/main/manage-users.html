@@ -1,0 +1,81 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Manage Users - NiceAdmin{% endblock %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Manage Users</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item active">Manage Users</li>
+            </ol>
+        </nav>
+    </div>
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">User Privileges</h5>
+
+                        {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>View Privilege</th>
+                                        <th>Upload Privilege</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for user in users %}
+                                    <tr>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>
+                                            <form method="POST" class="privilege-form">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="user_id" value="{{ user.id }}">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" name="can_view" 
+                                                           {% if user.userprofile.can_view %}checked{% endif %}>
+                                                </div>
+                                        </td>
+                                        <td>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" name="can_upload" 
+                                                           {% if user.userprofile.can_upload %}checked{% endif %}>
+                                                </div>
+                                        </td>
+                                        <td>
+                                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %} 
